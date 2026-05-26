@@ -1,0 +1,7 @@
+{
+  "debug_mode": {
+    "type": "boolean",
+    "default": false,
+    "description": "Log token-payment contributor activity to the console"
+  }
+}
