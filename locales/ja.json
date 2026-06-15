@@ -1,3 +1,15 @@
 {
-  "tokenPaymentAdmin": {}
+  "tokenPaymentAdmin": {
+    "tokenBundleWidget": {
+      "bundles": "Token bundles to show",
+      "bundlesHint": "Leave empty to show every active bundle.",
+      "defaultView": "Default view",
+      "defaultViewOption": {
+        "cards": "Cards",
+        "table": "Table"
+      },
+      "heading": "Heading",
+      "headingPlaceholder": "Top up tokens"
+    }
+  }
 }

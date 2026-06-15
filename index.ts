@@ -15,6 +15,14 @@
  */
 import type { IPlugin, IPlatformSDK } from 'vbwd-view-component';
 import { registerPaymentDataContributor } from 'vbwd-view-component';
+import en from './locales/en.json';
+import de from './locales/de.json';
+import es from './locales/es.json';
+import fr from './locales/fr.json';
+import ja from './locales/ja.json';
+import ru from './locales/ru.json';
+import th from './locales/th.json';
+import zh from './locales/zh.json';
 
 export const tokenPaymentAdminPlugin: IPlugin = {
   name: 'token-payment-admin',
@@ -22,7 +30,7 @@ export const tokenPaymentAdminPlugin: IPlugin = {
   description: 'Renders the tokens_paid namespace inside the shared PaymentDataBlock on admin invoice detail',
   _active: false,
 
-  install(_sdk: IPlatformSDK): void {
+  install(sdk: IPlatformSDK): void {
     registerPaymentDataContributor('tokens_paid', {
       label: 'Paid with tokens',
       format: (data) => {
@@ -31,6 +39,32 @@ export const tokenPaymentAdminPlugin: IPlugin = {
       },
       order: 10,
     });
+
+    // Translations for the TokenBundleCollection widget editor.
+    sdk.addTranslations('en', { tokenPaymentAdmin: (en as Record<string, unknown>).tokenPaymentAdmin });
+    sdk.addTranslations('de', { tokenPaymentAdmin: (de as Record<string, unknown>).tokenPaymentAdmin });
+    sdk.addTranslations('es', { tokenPaymentAdmin: (es as Record<string, unknown>).tokenPaymentAdmin });
+    sdk.addTranslations('fr', { tokenPaymentAdmin: (fr as Record<string, unknown>).tokenPaymentAdmin });
+    sdk.addTranslations('ja', { tokenPaymentAdmin: (ja as Record<string, unknown>).tokenPaymentAdmin });
+    sdk.addTranslations('ru', { tokenPaymentAdmin: (ru as Record<string, unknown>).tokenPaymentAdmin });
+    sdk.addTranslations('th', { tokenPaymentAdmin: (th as Record<string, unknown>).tokenPaymentAdmin });
+    sdk.addTranslations('zh', { tokenPaymentAdmin: (zh as Record<string, unknown>).tokenPaymentAdmin });
+
+    // Register the TokenBundleCollection editor through the SHARED cms-admin
+    // widget-editor seam (OCP). Dynamic import keeps cms-admin a soft
+    // dependency — if cms-admin is absent the widget editor is simply not
+    // registered.
+    import('../cms-admin/index')
+      .then(({ registerWidgetEditor }) => {
+        import('./src/widgets/registerTokenBundleCollectionWidgetEditor').then(
+          ({ registerTokenBundleCollectionWidgetEditor }) => {
+            registerTokenBundleCollectionWidgetEditor(registerWidgetEditor);
+          },
+        );
+      })
+      .catch(() => {
+        // cms-admin plugin not installed — skip widget-editor registration.
+      });
   },
 
   activate(): void {
