@@ -27,6 +27,7 @@ import zh from './locales/zh.json';
 export const tokenPaymentAdminPlugin: IPlugin = {
   name: 'token-payment-admin',
   version: '1.0.0',
+  dependencies: ['cms-admin'],
   description: 'Renders the tokens_paid namespace inside the shared PaymentDataBlock on admin invoice detail',
   _active: false,
 
